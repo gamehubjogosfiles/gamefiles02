@@ -22,8 +22,8 @@
 </head>
 <body>
   <canvas id="unity-canvas" aria-label="Hollow Knight"></canvas>
-  <div id="loading-ui" class="gamehub-loading" data-loading-style="abyss" style="--gamehub-load-accent: #b3cdf0;" role="status" aria-live="polite">
-    <div id="status-text">Preparing download</div>
+  <div id="loading-ui" class="gamehub-loading" style="--gamehub-load-accent: #ffd400;" role="status" aria-live="polite">
+    <div id="status-text">Loading game...</div>
     <div id="bar-container" aria-hidden="true"><div id="bar-fill"></div></div>
     <div id="progress-detail">0.00 MB / 912.81 MB</div>
     <div id="error-box"></div>
@@ -85,7 +85,7 @@
     }
     (async () => {
       try {
-        updateProgress('Preparing download');
+        updateProgress('Loading game...');
         const [dataUrl, codeUrl] = await Promise.all([
           mergeParts(partNames('Build/hktruffled.data', 45)),
           mergeParts(partNames('Build/hktruffled.wasm', 2))
