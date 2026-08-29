@@ -33,8 +33,8 @@
 </style>
 </head>
 <body>
-  <div id="loading-textt" class="gamehub-loading" data-loading-style="sky" style="--gamehub-load-accent: #6dbee7;" role="status" aria-live="polite">
-    <div id="status-text">Preparing game files</div>
+  <div id="loading-textt" class="gamehub-loading" style="--gamehub-load-accent: #ffd400;" role="status" aria-live="polite">
+    <div id="status-text">Loading game...</div>
     <div id="bar-container" aria-hidden="true"><div id="bar-fill"></div></div>
     <div id="progress-detail">0.00 MB / 681.43 MB</div>
     <div id="error-box"></div>
@@ -63,7 +63,7 @@
         complete() { loadedBytes = totalBytes; render('Ready'); notifyParent('ready'); setTimeout(() => { overlay.style.display = 'none'; }, 250); },
         error(message) { status.textContent = 'Could not start Celeste'; document.getElementById('error-box').textContent = message || 'Refresh the page to try again.'; document.getElementById('error-box').style.display = 'block'; notifyParent('error', message || 'Could not start Celeste'); }
       };
-      render('Preparing game files');
+      render('Loading game...');
       window.addEventListener('error', () => window.gamehubLoading.error(), { once: true });
       window.addEventListener('unhandledrejection', () => window.gamehubLoading.error(), { once: true });
     })();
