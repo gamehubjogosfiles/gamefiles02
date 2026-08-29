@@ -38,6 +38,7 @@
       const bar = document.getElementById('bar-fill');
       const detail = document.getElementById('progress-detail');
       const overlay = document.getElementById('loading-textt');
+      const notifyParent = (state, message) => { if (window.parent !== window) window.parent.postMessage({ gamehub: 'game-status', state, message: message || '' }, '*'); };
       const formatMB = bytes => `${(bytes / 1048576).toFixed(2)} MB`;
       const render = (message, suffix = '') => {
         const complete = Math.min(loadedBytes, totalBytes);
@@ -49,8 +50,8 @@
         addNative(bytes) { loadedBytes += bytes; render('Preparing game runtime'); },
         addData(bytes, index, total) { loadedBytes += bytes; render(`Downloading game files (${index}/${total})`); },
         setStage(message) { render(message); },
-        complete() { loadedBytes = totalBytes; render('Ready'); setTimeout(() => { overlay.style.display = 'none'; }, 250); },
-        error(message) { status.textContent = 'Could not start Celeste'; document.getElementById('error-box').textContent = message || 'Refresh the page to try again.'; document.getElementById('error-box').style.display = 'block'; }
+        complete() { loadedBytes = totalBytes; render('Ready'); notifyParent('ready'); setTimeout(() => { overlay.style.display = 'none'; }, 250); },
+        error(message) { status.textContent = 'Could not start Celeste'; document.getElementById('error-box').textContent = message || 'Refresh the page to try again.'; document.getElementById('error-box').style.display = 'block'; notifyParent('error', message || 'Could not start Celeste'); }
       };
       render('Preparing game files');
       window.addEventListener('error', () => window.gamehubLoading.error(), { once: true });
