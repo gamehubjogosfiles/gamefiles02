@@ -38,6 +38,8 @@
     const progressDetail = document.getElementById('progress-detail');
     const errorBox = document.getElementById('error-box');
     const saveButton = document.getElementById('save-button');
+    const notifyParent = (state, message) => { if (window.parent !== window) window.parent.postMessage({ gamehub: 'game-status', state, message: message || '' }, '*'); };
+    let gameReady = false;
     const TOTAL_PAYLOAD_BYTES = 957147063;
     let loadedBytes = 0;
 
@@ -79,6 +81,7 @@
       statusText.textContent = 'Could not start Hollow Knight';
       errorBox.textContent = 'Refresh the page to try again.';
       errorBox.style.display = 'block';
+      notifyParent('error', 'Could not start Hollow Knight');
     }
     (async () => {
       try {
@@ -102,7 +105,7 @@
           productVersion: '1.0'
         }, progress => {
           statusText.textContent = progress >= 1 ? 'Ready' : 'Starting game';
-          if (progress >= 1) setTimeout(() => { loadingUI.style.display = 'none'; saveButton.style.display = 'block'; }, 250);
+          if (progress >= 1 && !gameReady) { gameReady = true; notifyParent('ready'); setTimeout(() => { loadingUI.style.display = 'none'; saveButton.style.display = 'block'; }, 250); }
         }).catch(showError);
         loader.onerror = () => showError(new Error('Could not load the game runtime.'));
         document.body.appendChild(loader);
