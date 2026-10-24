@@ -209,7 +209,7 @@
           loaded += result.value.byteLength;
           const fraction = expected ? Math.min(1, loaded / expected) : 0;
           setProgress(i - 1 + fraction, partCount,
-            'DOWNLOADING ' + i + '/' + partCount + ' · ' + formatBytes(totalLoaded + loaded));
+            'DOWNLOADING · ' + formatBytes(totalLoaded + loaded));
         }
         totalLoaded += loaded;
         buffers.push(new Blob(chunks, {type: 'application/octet-stream'}));
@@ -219,7 +219,7 @@
         buffers.push(buffer);
       }
       setProgress(i, partCount,
-        'DOWNLOADING ' + i + '/' + partCount + ' · ' + formatBytes(totalLoaded));
+        'DOWNLOADING · ' + formatBytes(totalLoaded));
     }
     const archive = new Blob(buffers, {type: 'application/zip'});
     setProgress(partCount, partCount, 'EXTRACTING RESOURCES...');
